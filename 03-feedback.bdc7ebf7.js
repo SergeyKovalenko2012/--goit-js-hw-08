@@ -4,4 +4,4 @@ var t=arguments[3],n="Expected a function",e=NaN,i="[object Symbol]",r=/^\s+|\s+
 },{}],"TTyb":[function(require,module,exports) {
 "use strict";var e=t(require("lodash.throttle"));function t(e){return e&&e.__esModule?e:{default:e}}const a=document.querySelector(".feedback-form"),l=a.email,o=a.message,r="feedback-form-state";function n(e){const t={email:l.value,message:o.value};localStorage.setItem(r,JSON.stringify(t))}function s(){const e=localStorage.getItem(r);if(e){console.log(e);const t=JSON.parse(e);l.value=t.email,o.value=t.message}}a.addEventListener("submit",function(e){""!==l.value&&""!==o.value?(e.preventDefault(),e.currentTarget.reset(),localStorage.removeItem(r)):alert("Всі поля мають бути заповнені!")}),o.addEventListener("input",(0,e.default)(n,500)),s();
 },{"lodash.throttle":"FNyO"}]},{},["TTyb"], null)
-//# sourceMappingURL=/parcel-project-template/03-feedback.bdc7ebf7.js.map
+//# sourceMappingURL=/--goit-js-hw-08/03-feedback.bdc7ebf7.js.map
