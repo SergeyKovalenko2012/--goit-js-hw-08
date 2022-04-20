@@ -9,7 +9,7 @@ initForm();
 form.addEventListener('submit', evt => {
   evt.preventDefault();
   const formData = new FormData(form);
-  formData.forEach((value, name) => console.dir(value, name));
+  formData.forEach((value, name) => console.log(value, name));
   localStorage.removeItem(STORAGE_KEY);
   form.reset();
 });
