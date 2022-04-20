@@ -3,15 +3,22 @@ import throttle from 'lodash.throttle';
 const STORAGE_KEY = 'feedback-form-state';
 
 const form = document.querySelector('.feedback-form');
+const email = form.email;
+const message = form.message;
 
 initForm();
 
-form.addEventListener('submit', evt => {
+form.addEventListener('submit', function(evt) {
   evt.preventDefault();
   const formData = new FormData(form);
-  formData.forEach((value, name) => console.log(value, name));
+  formData.forEach((value, name) =>
+    value === '' || name === ''
+      ? alert('Всі поля мають бути заповнені!')
+      : console.log(value, name),
+  );
   localStorage.removeItem(STORAGE_KEY);
   form.reset();
+  // evt.currentTarget.reset();
 });
 
 form.addEventListener('input', throttle(onTextereaInput, 500));
