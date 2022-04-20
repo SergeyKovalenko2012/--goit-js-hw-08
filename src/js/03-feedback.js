@@ -1,46 +1,35 @@
 import throttle from 'lodash.throttle';
 
-const form = document.querySelector('.feedback-form');
-const email = form.email;
-const message = form.message;
-
 const STORAGE_KEY = 'feedback-form-state';
 
-form.addEventListener('submit', function(evt) {
-  if (email.value === '') {
-    alert('Всі поля мають бути заповнені!');
-    return;
-  }
-  if (message.value === '') {
-    alert('Всі поля мають бути заповнені!');
-    return;
-  }
+const form = document.querySelector('.feedback-form');
+
+initForm();
+
+form.addEventListener('submit', evt => {
   evt.preventDefault();
-  evt.currentTarget.reset();
+  const formData = new FormData(form);
+  formData.forEach((value, name) => console.dir(value, name));
   localStorage.removeItem(STORAGE_KEY);
+  form.reset();
 });
 
-email.addEventListener('input', throttle(onTextereaInput, 500));
-message.addEventListener('input', throttle(onTextereaInput, 500));
+form.addEventListener('input', throttle(onTextereaInput, 500));
 
-popularMessage();
-
-function onTextereaInput() {
-  const data = {
-    message: message.value,
-    email: email.value,
-  };
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+function onTextereaInput(evt) {
+  let persistedFilter = localStorage.getItem(STORAGE_KEY);
+  persistedFilter = persistedFilter ? JSON.parse(persistedFilter) : {};
+  persistedFilter[evt.target.name] = evt.target.value;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(persistedFilter));
 }
 
-function popularMessage() {
-  const savedMessage = localStorage.getItem(STORAGE_KEY);
-  if (savedMessage) {
-    const data = JSON.parse(savedMessage);
-    email.value = data.email;
-    message.value = data.message;
-
-    console.log(savedMessage);
+function initForm() {
+  let persistedFilter = localStorage.getItem(STORAGE_KEY);
+  if (persistedFilter) {
+    persistedFilter = JSON.parse(persistedFilter);
+    console.log(persistedFilter);
+    Object.entries(persistedFilter).forEach(([name, value]) => {
+      form.elements[name].value = value;
+    });
   }
 }
